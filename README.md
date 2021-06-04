@@ -1,37 +1,66 @@
 [![New Relic Experimental header](https://github.com/newrelic/opensource-website/raw/master/src/images/categories/Experimental.png)](https://opensource.newrelic.com/oss-category/#new-relic-experimental)
 
-# [Name of Project] [build badges go here when available]
+# nrpy
 
->[Brief description - what is the project and value does it provide? How often should users expect to get releases? How is versioning set up? Where does this project want to go?]
+Python wrapper scripts for Nerdgraph and REST API
 
 ## Installation
 
-> [Include a step-by-step procedure on how to get your code installed. Be sure to include any third-party dependencies that need to be installed separately]
+### Pre-requisites
+
+- [x] Python 3.7
+- [x] pip3 install requests
+
+  ### Install
+
+- [x] Download and unzip a release of nrpy project
 
 ## Getting Started
->[Simple steps to start working with the software similar to a "Hello World"]
+
+The table below lists the scripts that can be used for different use cases.
+
+No. | Use Case         | Scripts
+--- | ---------------- | -----------------------------------------------------------
+1.  | Update Tag value | entitytags --delTagValues "key:value" --addTags "key:value"
 
 ## Usage
->[**Optional** - Include more thorough instructions on how to use the software. This section might not be needed if the Getting Started section is enough. Remove this section if it's not needed.]
 
+### 1) python3 entitytags.py
 
-## Building
+`usage: entitytags.py [-h] --personalApiKey PERSONALAPIKEY [--delTagValues DELTAGVALUES] [--addTags ADDTAGS] [--rmAllInfraHostTags] [--getAllInfraHostTags]`
 
->[**Optional** - Include this section if users will need to follow specific instructions to build the software from source. Be sure to include any third party build dependencies that need to be installed separately. Remove this section if it's not needed.]
+Parameter           | Note
+------------------- | ---------------------------------------------------
+personalApiKey      | Personal API key of a user who can edit tags
+delTagValues        | Tag Values to be deleted : owner:John
+addTags             | Tags to be added : owner:Jack
+getAllInfraHostTags | pass to list all mutable tags for all infra hosts
+rmAllInfraHostTags  | pass to delete all mutable tags for all infra hosts
 
-## Testing
+### 1) python3 dashboards.py
 
->[**Optional** - Include instructions on how to run tests if we include tests with the codebase. Remove this section if it's not needed.]
+Supports two actions --download or --copy
 
-## Support
+`usage: dashboards.py [-h] --fromAccount FROMACCOUNT --fromApiKey FROMAPIKEY --entityGuid ENTITYGUID [--download] [--copy] [--toAccount TOACCOUNT] [--toApiKey TOAPIKEY] [--toName TONAME]`
 
-New Relic hosts and moderates an online forum where customers can interact with New Relic employees as well as other customers to get help and share best practices. Like all official New Relic open source projects, there's a related Community topic in the New Relic Explorers Hub. You can find this project's topic/threads here:
+Parameter   | Note
+----------- | -------------------------------------------------------------------------------
+fromAccount | Account from which dashboard is sourced
+fromApiKey  | User API Key fromAccount
+entityGuid  | entityGuid of dashboard (copy this from NR1 UI view metadata and tags option)
+download    | Downloads the dashboard json to current directory accountId-dashboardName.json
+copy        | Copies dashboard to options provided in following to... parameters
+toAccount   | copy toAccount
+toApiKey    | (optional) if not provided fromApiKey is used and assumed to work for toAccount
+toName      | (optional) copy toName if not then copied as 'Copy of ' source dashboard name
 
->Add the url for the support thread here
+### Logging
+
+Logs are stored in logs/nrpy.log Logging level can be set in nrpylogger.py. Default level for file and stdout is INFO
 
 ## Contributing
-We encourage your contributions to improve [project name]! Keep in mind when you submit your pull request, you'll need to sign the CLA via the click-through using CLA-Assistant. You only have to sign the CLA one time per project.
-If you have any questions, or to execute our corporate CLA, required if your contribution is on behalf of a company,  please drop us an email at opensource@newrelic.com.
+
+We encourage your contributions to improve nrpy! Keep in mind when you submit your pull request, you'll need to sign the CLA via the click-through using CLA-Assistant. You only have to sign the CLA one time per project. If you have any questions, or to execute our corporate CLA, required if your contribution is on behalf of a company, please drop us an email at opensource@newrelic.com.
 
 **A note about vulnerabilities**
 
@@ -40,5 +69,5 @@ As noted in our [security policy](../../security/policy), New Relic is committed
 If you believe you have found a security vulnerability in this project or any of New Relic's products or websites, we welcome and greatly appreciate you reporting it to New Relic through [HackerOne](https://hackerone.com/newrelic).
 
 ## License
-[Project Name] is licensed under the [Apache 2.0](http://apache.org/licenses/LICENSE-2.0.txt) License.
->[If applicable: The [project name] also uses source code from third-party libraries. You can find full details on which libraries are used and the terms under which they are licensed in the third-party notices document.]
+
+nr-account-migration is licensed under the [Apache 2.0](http://apache.org/licenses/LICENSE-2.0.txt) License.

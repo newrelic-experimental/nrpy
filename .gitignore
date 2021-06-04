@@ -1,0 +1,10 @@
+
+library/__pycache__/
+
+library/clients/__pycache__/
+
+*.pyc
+
+tests/logs/
+
+.idea/
