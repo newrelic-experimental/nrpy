@@ -89,6 +89,16 @@ def save_json(dir_path, file_name, dictionary):
     json_file.write_text(json.dumps(dictionary, indent=utils.DEFAULT_INDENT))
 
 
+def save_csv(name: str, csv_data: list):
+    output_dir = Path(".")
+    csv_data_file = output_dir / name
+    create_file(csv_data_file)
+    with open(str(csv_data_file), 'w', newline='') as csvfile:
+        csv_writer = csv.writer(csvfile, delimiter=',',
+                                   quotechar='"', quoting=csv.QUOTE_ALL)
+        csv_writer.writerows(csv_line + [""] for csv_line in csv_data)
+
+
 def convert_timestamps_to_dates(violation):
     opened_at_date = datetime.fromtimestamp(violation['opened_at']/1000)
     violation['opened_at'] = opened_at_date
