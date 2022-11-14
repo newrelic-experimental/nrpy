@@ -98,6 +98,13 @@ def ensure_personal_api_key(args):
     return api_key
 
 
+def ensure_user_api_key(args):
+    if args.userApiKey:
+        api_key = args.userApiKey[0]
+    else:
+        api_key = os.environ.get('ENV_USER_API_KEY')
+    return api_key
+
 def error_and_exit(param_name, env_name):
     logger.error('Error: Missing param ' + param_name + ' or env variable ' + env_name)
     sys.exit()

@@ -8,3 +8,7 @@ library/clients/__pycache__/
 tests/logs/
 
 .idea/
+
+library/clients/logs/
+
+logs/
