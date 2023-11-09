@@ -1,0 +1,30 @@
+{
+  "nr_user_api_key": "YOUR_USER_API_KEY",
+  "since_days_ago": 7,
+  "query_increment_hours": 24,
+  "timeout": 60,
+  "account_id": 123456789,
+  "nrql": [
+    {
+      "name": "log-ingestion-by-labels.app",
+      "from": "Log,LogRecord",
+      "select": "bytecountestimate()/1e9",
+      "where": "`labels.app` IS NOT NULL",
+      "facet": "`labels.app`"
+    },
+    {
+      "name": "log-ingestion-by-labels.component",
+      "from": "Log,LogRecord",
+      "select": "bytecountestimate()/1e9",
+      "where": "`labels.app.kubernetes.io/component` IS NOT NULL",
+      "facet": "`labels.app.kubernetes.io/component`"
+    },
+    {
+      "name": "metrics-ingestion-by-appName",
+      "from": "Metric",
+      "select": "bytecountestimate()/1e9",
+      "where": "`appName` IS NOT NULL",
+      "facet": "`appName`"
+    }
+  ]
+}
