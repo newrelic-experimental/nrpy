@@ -111,17 +111,23 @@ def save_csv(name: str, csv_data: list):
         csv_writer.writerows(csv_line + [""] for csv_line in csv_data)
 
 
-def save_dict_as_csv(name: str, csv_data: dict, header: dict):
+def save_dict_as_csv(name: str, csv_data: dict, header: list):
     output_dir = Path(".")
     csv_data_file = output_dir / name
     create_file(csv_data_file)
     with open(str(csv_data_file), 'w', newline='') as csvfile:
         csv_writer = csv.writer(csvfile, delimiter=',',
                                 quotechar='"', quoting=csv.QUOTE_ALL)
-        for key, value in header.items():
-            csv_writer.writerow([key, value])
+        csv_writer.writerow(iter(header))
+        #for key, value in header.items():
+        #    csv_writer.writerow([key, value])
         for key, value in csv_data.items():
-            csv_writer.writerow([key, value])
+            if "," in key:
+                items_list = key.split(",")
+                items_list.append(value)
+                csv_writer.writerow(items_list)
+            else:
+                csv_writer.writerow([key, value])
 
 def convert_timestamps_to_dates(violation):
     opened_at_date = datetime.fromtimestamp(violation['opened_at']/1000)

@@ -25,6 +25,13 @@
       "select": "bytecountestimate()/1e9",
       "where": "`appName` IS NOT NULL",
       "facet": "`appName`"
+    },
+    {
+      "name": "log-by-app-and-component",
+      "from": "Log, LogRecord",
+      "select": "bytecountestimate()/1e9",
+      "where": "labels.app IS NOT NULL AND labels.component IS NOT NULL",
+      "facet": "labels.app, labels.component"
     }
   ]
 }

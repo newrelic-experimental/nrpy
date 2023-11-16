@@ -6,6 +6,13 @@ from library.endpoints import Endpoints
 import library.nrpylogger as nrpylogger
 
 
+def list_to_csv(list_or_str):
+    if isinstance(list_or_str, str):
+        return list_or_str
+    if isinstance(list_or_str, list):
+        return ','.join(list_or_str)
+
+
 logger = nrpylogger.get_logger(os.path.basename(__file__))
 config = store.load_json_from_file(".","nrql2csv.json")
 nrqls = config["nrql"]
@@ -17,7 +24,7 @@ region = Endpoints.REGION_US
 if 'region' in config:
     region = config['region']
 for nrql in nrqls:
-    logger.info('Running query {nrql["name"]}')
+    logger.info(f'Running query {nrql["name"]}')
     merged_results = {}
     for batch in range(batch_count):
         since_hours = since_hours_ago - batch * query_increment_hours
@@ -31,13 +38,15 @@ for nrql in nrqls:
             logger.error('correct the config to proceed')
             break
         if 'results' in response:
-            batch_result = {result['facet']: result['output'] for result in response['results']}
+            batch_result = {list_to_csv(result['facet']): result['output'] for result in response['results']}
             for key, value in batch_result.items():
                 merged_results[key] = merged_results.get(key, 0) + value
         else:
             logger.info('no results for this query trying next batch')
-    header = {nrql["facet"]: "summedOutput"}
-    store.save_dict_as_csv(f'{nrql["name"]}.csv', merged_results, header)
+    header_list = nrql["facet"].split(",")
+    header_list.append("summedOutput")
+    store.save_dict_as_csv(f'{nrql["name"]}.csv', merged_results, header_list)
+
 
 
 
