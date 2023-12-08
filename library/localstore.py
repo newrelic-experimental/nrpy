@@ -10,6 +10,18 @@ import library.utils as utils
 logger = nrpy_logger.get_logger(os.path.basename(__file__))
 
 
+def load_json_from_file(dir_name, json_file_name):
+    file_json = {}
+    json_dir = Path(dir_name)
+    if json_dir.exists():
+        json_file = json_dir / json_file_name
+        if json_file.exists():
+            file_json = json.loads(json_file.read_text())
+    else:
+        logger.error(dir_name + " does not exist.")
+    return file_json
+
+
 def create_dirs(dir_path):
     logger.debug("Creating " + dir_path)
     if '/' in dir_path:
@@ -98,6 +110,24 @@ def save_csv(name: str, csv_data: list):
                                    quotechar='"', quoting=csv.QUOTE_ALL)
         csv_writer.writerows(csv_line + [""] for csv_line in csv_data)
 
+
+def save_dict_as_csv(name: str, csv_data: dict, header: list):
+    output_dir = Path(".")
+    csv_data_file = output_dir / name
+    create_file(csv_data_file)
+    with open(str(csv_data_file), 'w', newline='') as csvfile:
+        csv_writer = csv.writer(csvfile, delimiter=',',
+                                quotechar='"', quoting=csv.QUOTE_ALL)
+        csv_writer.writerow(iter(header))
+        #for key, value in header.items():
+        #    csv_writer.writerow([key, value])
+        for key, value in csv_data.items():
+            if "," in key:
+                items_list = key.split(",")
+                items_list.append(value)
+                csv_writer.writerow(items_list)
+            else:
+                csv_writer.writerow([key, value])
 
 def convert_timestamps_to_dates(violation):
     opened_at_date = datetime.fromtimestamp(violation['opened_at']/1000)

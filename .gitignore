@@ -12,3 +12,5 @@ tests/logs/
 library/clients/logs/
 
 logs/
+
+output/
