@@ -129,6 +129,15 @@ def save_dict_as_csv(name: str, csv_data: dict, header: list):
             else:
                 csv_writer.writerow([key, value])
 
+
+def save_list_of_dict_as_csv(list_of_dicts, file_name):
+    if list_of_dicts:
+        column_names = list_of_dicts[0].keys()
+        with open(file_name, 'w', newline='') as output_file:
+            dict_writer = csv.DictWriter(output_file, column_names)
+            dict_writer.writeheader()
+            dict_writer.writerows(list_of_dicts)
+
 def convert_timestamps_to_dates(violation):
     opened_at_date = datetime.fromtimestamp(violation['opened_at']/1000)
     violation['opened_at'] = opened_at_date
