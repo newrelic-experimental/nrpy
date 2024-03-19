@@ -37,7 +37,7 @@ addTags             | Tags to be added : owner:Jack
 getAllInfraHostTags | pass to list all mutable tags for all infra hosts
 rmAllInfraHostTags  | pass to delete all mutable tags for all infra hosts
 
-### 1) python3 dashboards.py
+### 2) python3 dashboards.py
 
 Supports two actions --download or --copy
 
@@ -53,6 +53,12 @@ copy        | Copies dashboard to options provided in following to... parameters
 toAccount   | copy toAccount
 toApiKey    | (optional) if not provided fromApiKey is used and assumed to work for toAccount
 toName      | (optional) copy toName if not then copied as 'Copy of ' source dashboard name
+
+### 3) python3 alertsai.py
+
+
+### 4) python3 ccuconsumption.py
+
 
 ### Logging
 
